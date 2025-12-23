@@ -9,99 +9,6 @@
     <title>管理后台</title>
     <script data-cfasync="false" src="https://cdn.jsdelivr.net/npm/@keeex/qrcodejs-kx@1.0.2/qrcode.min.js"></script>
     <style>
-        /* Apple-like theme overrides: softer palette, larger spacing, rounded corners */
-        :root {
-            --apple-bg: #f6f7f8;
-            --apple-card: #ffffff;
-            --apple-muted: #6b6f76;
-            --apple-accent: #0071e3;
-            --apple-border: rgba(0,0,0,0.06);
-            --apple-radius: 16px;
-            --apple-shadow: 0 18px 40px rgba(20,20,20,0.08);
-        }
-
-        /* apply gentle background like apple.com */
-        body {
-            background: linear-gradient(180deg, var(--apple-bg) 0%, #ffffff 60%);
-            color: #0b1220;
-        }
-
-        /* card adjustments to look more Apple-like */
-        .card-container {
-            border-radius: var(--apple-radius);
-            background: var(--apple-card) !important;
-            box-shadow: var(--apple-shadow) !important;
-            padding: 48px !important;
-            border: 1px solid var(--apple-border);
-        }
-
-        .header {
-            background: transparent;
-            padding: 18px 0;
-        }
-
-        .header-title h1, .page-title {
-            font-weight: 600;
-            color: #0b1220;
-            letter-spacing: -0.3px;
-        }
-
-        .page-subtitle, .footer-hint, .cf-info-text, .module-title {
-            color: var(--apple-muted);
-        }
-
-        .btn-primary, .btn-qrcode, .btn-online-optimize, .btn-api-optimize {
-            border-radius: 12px;
-            background: linear-gradient(180deg, var(--apple-accent), #005ac1) !important;
-            box-shadow: 0 8px 24px rgba(2, 107, 255, 0.12) !important;
-            color: white !important;
-        }
-
-        .btn-secondary, .btn-close-api, .btn-hosts-cancel {
-            background: #f2f4f7 !important;
-            color: #0b1220 !important;
-            border: 1px solid rgba(11,18,32,0.04) !important;
-        }
-
-        .module {
-            background: transparent;
-            padding: 28px;
-            border-radius: 12px;
-            box-shadow: none;
-            border: 1px solid rgba(11,18,32,0.04);
-        }
-
-        .network-card, .latency-card {
-            background: linear-gradient(180deg, rgba(255,255,255,0.9), #ffffff);
-            border-radius: 12px;
-            border: 1px solid rgba(11,18,32,0.04);
-            box-shadow: 0 8px 20px rgba(12,20,30,0.04);
-        }
-
-        /* inputs: more airy and consistent */
-        .form-group input, .form-group select, .form-group textarea {
-            border-radius: 10px;
-            border: 1px solid rgba(11,18,32,0.06) !important;
-            padding: 14px !important;
-            background: #ffffff !important;
-        }
-
-        /* subtle accent on focus */
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-            box-shadow: 0 8px 20px rgba(0,113,227,0.12) !important;
-            border-color: rgba(0,113,227,0.4) !important;
-        }
-
-        /* smaller chips and icons */
-        .page-icon { border-radius: 12px; }
-        .page-title { font-size: 28px; }
-
-        /* keep responsive but slightly larger paddings */
-        @media (max-width: 768px) {
-            .card-container { padding: 28px !important; }
-            .page-title { font-size: 22px; }
-        }
-
         /* 基础重置 */
         * {
             margin: 0;
@@ -4577,6 +4484,21 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         <path fill="currentColor" d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
                     </svg>
                 </button>
+                <!-- GitHub 链接 -->
+                <a href="https://github.com/cmliu/edgetunnel" target="_blank" rel="noopener" class="social-link"
+                    title="GitHub">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385c.6.105.825-.255.825-.57c0-.285-.015-1.23-.015-2.235c-3.015.555-3.795-.735-4.035-1.41c-.135-.345-.72-1.41-1.23-1.695c-.42-.225-1.02-.78-.015-.795c.945-.015 1.62.87 1.845 1.23c1.08 1.815 2.805 1.305 3.495.99c.105-.78.42-1.305.765-1.605c-2.67-.3-5.46-1.335-5.46-5.925c0-1.305.465-2.385 1.23-3.225c-.12-.3-.54-1.53.12-3.18c0 0 1.005-.315 3.3 1.23c.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23c.66 1.65.24 2.88.12 3.18c.765.84 1.23 1.905 1.23 3.225c0 4.605-2.805 5.625-5.475 5.925c.435.375.81 1.095.81 2.22c0 1.605-.015 2.895-.015 3.3c0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12Z" />
+                    </svg>
+                </a>
+                <!-- Telegram 链接 -->
+                <a href="https://t.me/CMLiussss" target="_blank" rel="noopener" class="social-link" title="Telegram">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                        <path fill="currentColor"
+                            d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12a12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472c-.18 1.898-.962 6.502-1.36 8.627c-.168.9-.499 1.201-.82 1.23c-.696.065-1.225-.46-1.9-.902c-1.056-.693-1.653-1.124-2.678-1.8c-1.185-.78-.417-1.21.258-1.91c.177-.184 3.247-2.977 3.307-3.23c.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345c-.48.33-.913.49-1.302.48c-.428-.008-1.252-.241-1.865-.44c-.752-.245-1.349-.374-1.297-.789c.027-.216.325-.437.893-.663c3.498-1.524 5.83-2.529 6.998-3.014c3.332-1.386 4.025-1.627 4.476-1.635z" />
+                    </svg>
+                </a>
                 <!-- 返回顶部按钮 -->
                 <button type="button" class="social-link" title="返回顶部" onclick="scrollToTop()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -4912,7 +4834,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                         <strong>用最简单的话解释：</strong><br><br>
 
                         <strong>🚀 问题是这样的：</strong><br>
-                        我们的服务部署在 Cloudflare Workers 上。但是 Cloudflare 有个限制——他们的 Workers 无法直接访问 Cloudflare
+                        我们的 edgetunnel 服务部署在 Cloudflare Workers 上。但是 Cloudflare 有个限制——他们的 Workers 无法直接访问 Cloudflare
                         自己的服务。<br><b>这就像名叫 Cloudflare 的小白永远无法从自己的眼睛里看到自己。</b><br><br>
 
                         <strong>💡 解决方案：</strong><br>
@@ -6868,7 +6790,7 @@ vless://7b102311-43fd-4e8f-977e-8090623c101d@edt-pages.github.io:443?security=tl
                     statusEl.style.background = 'linear-gradient(135deg, #ef4444 0, #dc2626 100%)';
                     statusEl.style.padding = '16px';
                     statusEl.style.borderRadius = '8px';
-                    statusEl.innerHTML = '❌ <strong>后端版本过旧</strong><br/><small style="opacity: 0.9;">请升级代码</small>';
+                    statusEl.innerHTML = '❌ <strong>后端版本过旧</strong><br/><small style="opacity: 0.9;">请升级 edgetunnel 代码</small>';
                     document.getElementById('proxyConfirmBtn').disabled = true;
                     document.getElementById('proxyConfirmBtn').style.opacity = '0.5';
                 } else if (data.success === false) {
