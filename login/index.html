@@ -6,595 +6,74 @@
 <meta name="robots" content="noindex, nofollow">
 <title>登录设置页面</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+    --bg:#f5f6f7;
+    --card:#ffffff;
+    --muted:#6b6b6b;
+    --accent:#ff9500;
+    --shadow: 0 10px 30px rgba(20,20,20,0.08);
 }
 
-body {
-    font-family: -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
-    overflow: hidden
+html,body{height:100%}
+body{
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    background: linear-gradient(180deg,#f7f8fa,var(--bg));
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:28px 18px;
 }
 
-/* 通用动画 */
-@keyframes blurOverlayAppear {
-    0% {
-        opacity: 0;
-        -webkit-backdrop-filter: blur(0px);
-        backdrop-filter: blur(0px);
-    }
-    100% {
-        opacity: 1;
-        -webkit-backdrop-filter: blur(12px);
-        backdrop-filter: blur(12px);
-    }
-}
-
-@keyframes containerAppear {
-    0% {
-        opacity: 0;
-        transform: translateY(30px) scale(0.9)
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0) scale(1)
-    }
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0
-    }
-    to {
-        opacity: 1
-    }
-}
-
-@keyframes shake {
-    0%,100% {
-        transform: translateX(0)
-    }
-    10%,30%,50%,70%,90% {
-        transform: translateX(-5px)
-    }
-    20%,40%,60%,80% {
-        transform: translateX(5px)
-    }
-}
-
-@keyframes gradientShift {
-    0% {
-        background-position: 0 50%
-    }
-    50% {
-        background-position: 100% 50%
-    }
-    100% {
-        background-position: 0 50%
-    }
-}
-
-/* 背景和遮罩层 */
-#background-iframe {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    z-index: -3!important
-}
-
-#blur-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg,rgba(102,126,234,0.1) 0,rgba(118,75,162,0.15) 100%);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    z-index: -2!important;
-    animation: blurOverlayAppear 1.5s ease-out forwards .3s;
-    pointer-events: none;
-    opacity: 0
-}
-
-/* 通用容器包装器 */
-.page-wrapper {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1!important;
-    padding: 20px;
-    overflow-y: auto
-}
-
-/* 通用卡片容器 */
-.card-container {
-    background: rgba(255,255,255,0.95);
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    padding: 50px 40px;
-    border-radius: 24px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3),0 0 0 1px rgba(255,255,255,0.1) inset;
-    width: 100%;
-    animation: containerAppear 1s ease-out .8s backwards;
-    position: relative;
-    overflow: hidden
-}
-
-.card-container::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg,#faab41 0,#f6821f 50%,#faab41 100%);
-    background-size: 200% 100%;
-    animation: gradientShift 3s ease infinite
-}
-
-/* 页面标题和图标 */
-.page-header {
-    margin-bottom: 35px;
-    text-align: center
-}
-
-.page-icon {
-    width: 70px;
-    height: 70px;
-    margin: 0 auto 20px;
-    background: linear-gradient(135deg,#faab41 0,#f6821f 100%);
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 10px 30px rgba(102,126,234,0.4);
-    animation: fadeIn .8s ease-out 1s backwards
-}
-
-.page-icon svg {
-    width: 36px;
-    height: 36px;
-    fill: white
-}
-
-.page-title {
-    font-size: 32px;
-    font-weight: 700;
-    background: linear-gradient(135deg,#faab41 0,#f6821f 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin: 0 0 12px;
-    line-height: 1.2;
-    letter-spacing: -0.5px
-}
-
-/* 表单样式 */
-.page-form {
-    display: flex;
-    flex-direction: column;
-    margin-top: 35px
-}
-
-.form-group {
-    margin-bottom: 24px;
-    text-align: left;
-    position: relative
-}
-
-.input-wrapper {
-    position: relative
-}
-
-.input-icon {
-    position: absolute;
-    left: 16px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 20px;
-    height: 20px;
-    opacity: .4;
-    pointer-events: none;
-    transition: opacity .3s ease
-}
-
-.form-group input {
-    width: 100%;
-    padding: 16px;
-    border: 2px solid #e5e7eb!important;
-    border-radius: 12px;
-    font-size: 16px;
-    color: #1f2937!important;
-    background-color: #fff!important;
-    box-sizing: border-box;
-    transition: all .3s ease;
-    -webkit-appearance: none;
-    appearance: none;
-    font-family: inherit
-}
-
-.form-group input.with-icon {
-    padding-left: 48px
-}
-
-.form-group input:focus {
-    outline: 0!important;
-    border-color: #faab41!important;
-    box-shadow: 0 0 0 4px rgba(250,171,65,0.1)!important
-}
-
-.form-group input:focus+.input-icon {
-    opacity: .7
-}
-
-.form-group input:disabled {
-    background-color: #f3f4f6!important;
-    color: #9ca3af!important;
-    cursor: not-allowed;
-    opacity: 1
-}
-
-.form-group input[readonly] {
-    background-color: #f9fafb!important;
-    color: #6b7280!important
-}
-
-/* 按钮样式 */
-.btn {
-    padding: 16px 20px;
-    border: 0;
-    border-radius: 12px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all .3s ease;
-    box-sizing: border-box;
-    -webkit-appearance: none;
-    appearance: none;
-    letter-spacing: .5px;
-    position: relative;
-    overflow: hidden
-}
-
-.btn-primary {
-    background: linear-gradient(135deg,#faab41 0,#f6821f 100%);
-    color: #fff;
-    box-shadow: 0 4px 15px rgba(102,126,234,0.4)
-}
-
-.btn-primary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);
-    transition: left .5s ease
-}
-
-.btn-primary:hover::before {
-    left: 100%
-}
-
-.btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 25px rgba(102,126,234,0.5)
-}
-
-.btn-primary:active {
-    transform: translateY(0);
-    box-shadow: 0 2px 10px rgba(102,126,234,0.4)
-}
-
-.btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none
-}
-
-/* 页脚提示 */
-.footer-hint {
-    margin-top: 30px;
-    font-size: 13px;
-    color: #9ca3af;
-    animation: fadeIn 1s ease-out 1.5s backwards;
-    text-align: center
-}
-
-.footer-hint a {
-    color: #faab41;
-    text-decoration: none;
-    font-weight: 500;
-    transition: color .3s ease
-}
-
-.footer-hint a:hover {
-    color: #f6821f
-}
-
-/* 模态框 */
-.modal-overlay {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 2000000000;
-    justify-content: center;
-    align-items: center
-}
-
-.modal-overlay.show {
-    display: flex
-}
-
-.modal {
-    background: #fff;
-    border-radius: 16px;
-    padding: 30px;
-    max-width: 400px;
-    width: 90%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-    text-align: center;
-    z-index: 2000000001;
-    position: relative
-}
-
-.modal-close {
-    position: absolute;
-    top: 15px;
-    right: 15px;
-    background: none;
-    border: none;
-    font-size: 24px;
-    cursor: pointer;
-    color: #9ca3af
-}
-
-.modal-close:hover {
-    color: #1f2937
-}
-
-/* 响应式设计 - 平板 */
-@media(max-width:768px) {
-    .page-wrapper {
-        padding: 20px 16px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-        justify-content: flex-start;
-        align-items: center
-    }
-
-    .card-container {
-        padding: 40px 28px;
-        border-radius: 20px;
-        max-width: 100%;
-        margin-top: auto;
-        margin-bottom: auto
-    }
-
-    .page-icon {
-        width: 60px;
-        height: 60px;
-        border-radius: 16px;
-        margin-bottom: 16px
-    }
-
-    .page-icon svg {
-        width: 30px;
-        height: 30px
-    }
-
-    .page-form {
-        margin-top: 28px
-    }
-
-    .form-group {
-        margin-bottom: 20px
-    }
-
-    .form-group input {
-        padding: 14px;
-        font-size: 16px;
-        border-radius: 10px
-    }
-
-    .form-group input.with-icon {
-        padding-left: 44px
-    }
-
-    .input-icon {
-        left: 14px;
-        width: 18px;
-        height: 18px
-    }
-
-    .btn {
-        padding: 15px 20px;
-        font-size: 15px;
-        border-radius: 10px
-    }
-
-    .footer-hint {
-        margin-top: 24px;
-        font-size: 12px
-    }
-}
-
-/* 响应式设计 - 手机 */
-@media(max-width:480px) {
-    .page-wrapper {
-        padding: 12px;
-        justify-content: flex-start;
-        align-items: center
-    }
-
-    .card-container {
-        padding: 35px 24px;
-        border-radius: 18px;
-        margin-top: auto;
-        margin-bottom: auto
-    }
-
-    .page-icon {
-        width: 55px;
-        height: 55px;
-        border-radius: 14px
-    }
-
-    .page-icon svg {
-        width: 28px;
-        height: 28px
-    }
-
-    .page-title {
-        font-size: 24px
-    }
-}
-
-/* 响应式设计 - 横屏 */
-@media(max-height:600px) and (orientation:landscape) {
-    .page-wrapper {
-        padding: 20px;
-        justify-content: flex-start;
-        align-items: center
-    }
-
-    .card-container {
-        padding: 30px 35px;
-        margin-top: auto;
-        margin-bottom: auto
-    }
-
-    .page-icon {
-        width: 50px;
-        height: 50px;
-        margin-bottom: 12px
-    }
-
-    .page-icon svg {
-        width: 26px;
-        height: 26px
-    }
-
-    .page-title {
-        font-size: 22px;
-        margin-bottom: 8px
-    }
-
-    .page-form {
-        margin-top: 20px
-    }
-
-    .form-group {
-        margin-bottom: 16px
-    }
-
-    .footer-hint {
-        margin-top: 16px
-    }
-}
-
-.card-container {
-    max-width: 440px;
-    text-align: center
-}
-
-/* 错误消息样式 */
-.login-error {
-    margin-top: 24px;
-    padding: 14px 18px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #ef4444 0, #dc2626 100%);
-    color: #fff;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1.5;
-    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
-    animation: errorShake 0.5s ease-in-out, fadeInError 0.3s ease-out;
-    display: flex;
-    align-items: center;
-    gap: 10px
-}
-
-.login-error::before {
-    content: '⚠️';
-    flex-shrink: 0;
-    font-size: 16px
-}
-
-@keyframes errorShake {
-    0%,100% {
-        transform: translateX(0)
-    }
-    10%,30%,50%,70%,90% {
-        transform: translateX(-5px)
-    }
-    20%,40%,60%,80% {
-        transform: translateX(5px)
-    }
-}
-
-@keyframes fadeInError {
-    from {
-        opacity: 0;
-        transform: translateY(-10px)
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0)
-    }
-}
-
-/* 加载状态 */
-.btn-loading {
-    position: relative;
-    color: transparent !important
-}
-
-.btn-loading::after {
-    content: '';
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    top: 50%;
-    left: 50%;
-    margin-left: -7px;
-    margin-top: -7px;
-    border: 2px solid rgba(255, 255, 255, 0.3);
-    border-radius: 50%;
-    border-top-color: white;
-    animation: spin 0.8s linear infinite
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg)
-    }
-}
-
-/* 按钮全宽样式 */
-.btn-full-width {
-    width: 100%;
-}
-
-/* 错误消息隐藏状态 */
-.login-error-hidden {
-    display: none;
-}
+/* backdrop + subtle animation retained */
+@keyframes blurOverlayAppear{from{opacity:0;backdrop-filter:blur(0)}to{opacity:1;backdrop-filter:blur(10px)}}
+@keyframes containerAppear{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+
+#background-iframe{position:fixed;inset:0;width:100%;height:100%;border:0;z-index:-3!important}
+#blur-overlay{position:fixed;inset:0;background:linear-gradient(135deg,rgba(102,126,234,0.06),rgba(118,75,162,0.06));backdrop-filter:blur(10px);z-index:-2!important;pointer-events:none;animation:blurOverlayAppear 1.2s ease-out forwards .2s;opacity:1}
+
+.page-wrapper{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:12px}
+
+.card-container{width:100%;max-width:520px;background:linear-gradient(180deg,rgba(255,255,255,0.92),var(--card));border-radius:16px;padding:36px 36px;box-shadow:var(--shadow);border:1px solid rgba(0,0,0,0.04);backdrop-filter:blur(6px);animation:containerAppear .9s ease-out .15s both;position:relative}
+.card-container::before{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,var(--accent),#ff7a00);opacity:.9}
+
+.page-header{text-align:center;margin-bottom:18px}
+.page-icon{width:64px;height:64px;margin:0 auto 10px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--accent),#ff7a00);box-shadow:0 8px 24px rgba(102,126,234,0.12)}
+.page-icon svg{width:32px;height:32px;fill:#fff}
+.page-title{font-size:20px;font-weight:600;margin:0;color:#111}
+
+.page-form{display:flex;flex-direction:column;margin-top:18px}
+.form-group{margin-bottom:18px;text-align:left;position:relative}
+.input-wrapper{position:relative}
+.input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;opacity:.45;pointer-events:none}
+.form-group input{width:100%;padding:14px;border:1px solid #e6e7ea;border-radius:12px;font-size:15px;color:#111;background:#fff;transition:box-shadow .18s ease,border-color .18s ease;font-family:inherit}
+.form-group input.with-icon{padding-left:48px}
+.form-group input:focus{outline:0;border-color:var(--accent);box-shadow:0 6px 18px rgba(255,145,0,0.12)}
+
+.btn{padding:14px 18px;border-radius:12px;border:0;font-weight:600;font-size:15px;cursor:pointer;transition:transform .12s ease,box-shadow .12s ease}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#ff7a00);color:#fff;box-shadow:0 6px 20px rgba(102,126,234,0.12)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(102,126,234,0.14)}
+.btn:disabled{opacity:.6;cursor:not-allowed}
+.btn-full-width{width:100%}
+
+.footer-hint{text-align:center;margin-top:18px;color:#9aa0a6;font-size:13px}
+.footer-hint a{color:var(--accent);text-decoration:none}
+
+.login-error{margin-top:14px;padding:12px 14px;border-radius:10px;background:linear-gradient(135deg,#ef4444,#dc2626);color:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;gap:10px}
+.login-error::before{content:'⚠️'}
+.login-error-hidden{display:none}
+
+/* loading spinner preserved */
+.btn-loading{position:relative;color:transparent!important}
+.btn-loading::after{content:'';position:absolute;width:14px;height:14px;top:50%;left:50%;transform:translate(-50%,-50%);border:2px solid rgba(255,255,255,0.35);border-radius:50%;border-top-color:white;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Responsive tweaks */
+@media (max-width:768px){.card-container{padding:28px;border-radius:14px}.page-icon{width:56px;height:56px}.page-title{font-size:18px}}
+@media (max-width:420px){.card-container{padding:22px;border-radius:12px}.page-icon{width:52px;height:52px}.page-title{font-size:17px}}
 </style>
 </head>
 <body>
@@ -628,7 +107,7 @@ body {
                 <div id="errorMsg" class="login-error login-error-hidden"></div>
             </form>
             <div class="footer-hint">
-                由 <a href="https://github.com/cmliu/edgetunnel" target="_blank" rel="noopener">edgetunnel</a> 强力驱动
+                由 YingPing Co., Ltd.强力驱动
             </div>
         </div>
     </div>
